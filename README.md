@@ -1,4 +1,6 @@
-# Google Cloud Endpoints Sample for Go
+# Sample for Go
+
+This sample is derived from the [Google Cloud Endpoints Sample for Go](https://github.com/GoogleCloudPlatform/golang-samples/tree/main/endpoints/getting-started).
 
 This sample demonstrates how to use Google Cloud Endpoints using Go.
 
