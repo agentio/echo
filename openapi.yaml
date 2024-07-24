@@ -18,7 +18,7 @@ info:
   description: "A simple Google Cloud Endpoints API example."
   title: "Endpoints Example"
   version: "1.0.0"
-host: "echo-api.endpoints.YOUR-PROJECT-ID.cloud.goog"
+host: "echo-api.endpoints.terminate-me.cloud.goog"
 # [END swagger]
 consumes:
 - "application/json"
@@ -26,7 +26,7 @@ produces:
 - "application/json"
 schemes:
 # Uncomment the next line if you configure SSL for this API.
-#- "https"
+- "https"
 - "http"
 paths:
   "/echo":
