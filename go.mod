@@ -1,4 +1,4 @@
-module github.com/agent-kit/golang-samples-endpoints-getting-started
+module github.com/terminate-me/golang-samples-endpoints-getting-started
 
 go 1.19
 
