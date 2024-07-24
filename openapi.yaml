@@ -12,14 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# [START swagger]
 swagger: "2.0"
 info:
   description: "A simple Google Cloud Endpoints API example."
   title: "Endpoints Example"
   version: "1.0.0"
-host: "echo-api.endpoints.terminate-me.cloud.goog"
-# [END swagger]
+host: "echo.endpoints.terminate-me.cloud.goog"
+x-google-endpoints:
+  - name: "echo.endpoints.terminate-me.cloud.goog"
+    target: "127.0.0.1"
 consumes:
 - "application/json"
 produces:

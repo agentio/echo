@@ -19,13 +19,12 @@ spec:
             secretName: service-account-creds
       containers:
       - name: esp
-        image: ghcr.io/terminate-me/esp-v2:latest
+        image: ghcr.io/terminate-me/esp:latest
         args: [
-          "--listener_port=8081",
+          "--http_port=8081",
           "--backend=127.0.0.1:8080",
-          "--service=echo-api.endpoints.terminate-me.cloud.goog",
+          "--service=echo.endpoints.terminate-me.cloud.goog",
           "--rollout_strategy=managed",
-          "--non_gcp",
           "--service_account_key=/etc/esp/creds/service-account-creds.json"
         ]
         ports:
@@ -66,34 +65,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - zulu.timbx.me
-    secretName: zulu-tls
+      - echo.endpoints.terminate-me.cloud.goog
+    secretName: echo-tls
   rules:
-  - host: zulu.timbx.me
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: echo
-            port:
-              number: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: echo-google
-  namespace: terminate-me
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
-spec:
-  tls:
-  - hosts:
-      - echo-api.endpoints.terminate-me.cloud.goog
-    secretName: echo-api-tls
-  rules:
-  - host: echo-api.endpoints.terminate-me.cloud.goog
+  - host: echo.endpoints.terminate-me.cloud.goog
     http:
       paths:
       - path: /
