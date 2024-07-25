@@ -22,7 +22,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -34,7 +34,7 @@ import (
 
 var (
 	url                 = flag.String("url", "", "The request url. Required.")
-	audience            = flag.String("audience", "", "The audience for the JWT. equired")
+	audience            = flag.String("audience", "", "The audience for the JWT. Required")
 	serviceAccountFile  = flag.String("service-account-file", "", "Path to service account JSON file. Required.")
 	serviceAccountEmail = flag.String("service-account-email", "", "Path email associated with the service account. Required.")
 )
@@ -56,8 +56,6 @@ func main() {
 	}
 	fmt.Printf("%s Response: %s", *url, resp)
 }
-
-// [START endpoints_generate_jwt_sa]
 
 // generateJWT creates a signed JSON Web Token using a Google API Service Account.
 func generateJWT(saKeyfile, saEmail, audience string, expiryLength int64) (string, error) {
@@ -84,13 +82,13 @@ func generateJWT(saKeyfile, saEmail, audience string, expiryLength int64) (strin
 	}
 
 	// Extract the RSA private key from the service account keyfile.
-	sa, err := ioutil.ReadFile(saKeyfile)
+	sa, err := os.ReadFile(saKeyfile)
 	if err != nil {
-		return "", fmt.Errorf("Could not read service account file: %w", err)
+		return "", fmt.Errorf("could not read service account file: %w", err)
 	}
 	conf, err := google.JWTConfigFromJSON(sa)
 	if err != nil {
-		return "", fmt.Errorf("Could not parse service account JSON: %w", err)
+		return "", fmt.Errorf("could not parse service account JSON: %w", err)
 	}
 	block, _ := pem.Decode(conf.PrivateKey)
 	parsedKey, err := x509.ParsePKCS8PrivateKey(block.Bytes)
@@ -104,10 +102,6 @@ func generateJWT(saKeyfile, saEmail, audience string, expiryLength int64) (strin
 	}
 	return jws.Encode(jwsHeader, jwt, rsaKey)
 }
-
-// [END endpoints_generate_jwt_sa]
-
-// [START endpoints_jwt_request]
 
 // makeJWTRequest sends an authorized request to your deployed endpoint.
 func makeJWTRequest(signedJWT, url string) (string, error) {
@@ -127,11 +121,9 @@ func makeJWTRequest(signedJWT, url string) (string, error) {
 		return "", fmt.Errorf("HTTP request failed: %w", err)
 	}
 	defer response.Body.Close()
-	responseData, err := ioutil.ReadAll(response.Body)
+	responseData, err := io.ReadAll(response.Body)
 	if err != nil {
 		return "", fmt.Errorf("failed to parse HTTP response: %w", err)
 	}
 	return string(responseData), nil
 }
-
-// [END endpoints_jwt_request]
