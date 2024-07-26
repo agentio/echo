@@ -97,9 +97,9 @@ func authInfoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	b, err := base64.URLEncoding.DecodeString(encodedInfo)
+	b, err := base64.StdEncoding.DecodeString(encodedInfo)
 	if err != nil {
-		errorf(w, http.StatusInternalServerError, "Could not decode auth info: %v", err)
+		errorf(w, http.StatusInternalServerError, "Could not decode auth info: %v (%s)", err, encodedInfo)
 		return
 	}
 	w.Write(b)
