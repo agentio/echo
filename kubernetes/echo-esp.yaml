@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: echo
-  namespace: terminate-me
+  namespace: agent-kit
 spec:
   replicas: 1
   selector:
@@ -19,11 +19,11 @@ spec:
             secretName: service-account-creds
       containers:
       - name: esp
-        image: ghcr.io/terminate-me/esp:latest
+        image: ghcr.io/agent-kit/esp:latest
         args: [
           "--http_port=8081",
           "--backend=127.0.0.1:8080",
-          "--service=echo.endpoints.terminate-me.cloud.goog",
+          "--service=echo.endpoints.agent-kit.cloud.goog",
           "--rollout_strategy=managed",
           "--service_account_key=/etc/esp/creds/service-account-creds.json"
         ]
@@ -34,7 +34,7 @@ spec:
             name: service-account-creds
             readOnly: true
       - name: echo
-        image: ghcr.io/terminate-me/echo-server:latest
+        image: ghcr.io/agent-kit/echo-server:latest
         ports:
           - containerPort: 8080    
       nodeSelector:
@@ -44,7 +44,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: echo
-  namespace: terminate-me
+  namespace: agent-kit
 spec:
   ports:
   - port: 80
@@ -59,16 +59,16 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: echo
-  namespace: terminate-me
+  namespace: agent-kit
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
 spec:
   tls:
   - hosts:
-      - echo.endpoints.terminate-me.cloud.goog
+      - echo.endpoints.agent-kit.cloud.goog
     secretName: echo-tls
   rules:
-  - host: echo.endpoints.terminate-me.cloud.goog
+  - host: echo.endpoints.agent-kit.cloud.goog
     http:
       paths:
       - path: /

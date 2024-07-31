@@ -15,12 +15,12 @@
 swagger: "2.0"
 info:
   description: "A simple Google Cloud Endpoints API example."
-  title: "Endpoints Example"
+  title: "Echo Endpoints Example API"
   version: "1.0.0"
-host: "echo.endpoints.terminate-me.cloud.goog"
+host: "echo.endpoints.agent-kit.cloud.goog"
 x-google-endpoints:
-  - name: "echo.endpoints.terminate-me.cloud.goog"
-    target: "127.0.0.1"
+  - name: "echo.endpoints.agent-kit.cloud.goog"
+    target: "172.125.77.209"
 consumes:
 - "application/json"
 produces:
@@ -129,11 +129,11 @@ securityDefinitions:
     flow: "implicit"
     type: "oauth2"
     # This must match the 'iss' field in the JWT.
-    x-google-issuer: "jwt-client.endpoints.sample.google.com"
+    x-google-issuer: "echo-client@agent-kit.iam.gserviceaccount.com"
     # Update this with your service account's email address.
-    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/jwk/YOUR-SERVICE-ACCOUNT-EMAIL"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/jwk/echo-client@agent-kit.iam.gserviceaccount.com"
     # This must match the "aud" field in the JWT. You can add multiple audiences to accept JWTs from multiple clients.
-    x-google-audiences: "echo.endpoints.sample.google.com"
+    x-google-audiences: "echo.endpoints.agent-kit.cloud.goog"
   # This section configures authentication using Google OAuth2 ID Tokens.
   # ID Tokens can be obtained using OAuth2 clients, and can be used to access
   # your API on behalf of a particular user.
@@ -143,7 +143,7 @@ securityDefinitions:
     type: "oauth2"
     x-google-issuer: "https://accounts.google.com"
     x-google-jwks_uri: "https://www.googleapis.com/oauth2/v3/certs"
-    x-google-audiences: "YOUR-CLIENT-ID"
+    x-google-audiences: 
   # This section configures authentication using Firebase Auth.
   firebase:
     authorizationUrl: ""
