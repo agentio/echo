@@ -97,6 +97,7 @@ func authInfoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// it seems that esp uses StdEncoding and esp-v2 uses RawStdEncoding.
 	b, err := base64.StdEncoding.DecodeString(encodedInfo)
 	if err != nil {
 		b, err = base64.RawStdEncoding.DecodeString(encodedInfo)

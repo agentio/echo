@@ -1,4 +1,4 @@
-module github.com/terminate-me/echo
+module github.com/agent-kit/echo
 
 go 1.19
 
