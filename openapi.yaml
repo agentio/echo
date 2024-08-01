@@ -143,7 +143,7 @@ securityDefinitions:
     type: "oauth2"
     x-google-issuer: "https://accounts.google.com"
     x-google-jwks_uri: "https://www.googleapis.com/oauth2/v3/certs"
-    x-google-audiences: "32555940559.apps.googleusercontent.com"
+    x-google-audiences: 
   # This section configures authentication using Firebase Auth.
   firebase:
     authorizationUrl: ""
