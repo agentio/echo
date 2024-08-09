@@ -2,7 +2,7 @@
 
 kubectl create secret generic service-account-creds \
     --from-file=secrets \
-	--namespace agent-kit \
+	--namespace agentio \
 	--dry-run=client \
 	-o yaml | kubectl apply -f -
 

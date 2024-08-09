@@ -1,4 +1,4 @@
-module github.com/agent-kit/echo
+module github.com/agentio/echo
 
 go 1.19
 
