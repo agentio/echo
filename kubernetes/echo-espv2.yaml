@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: echo
-  namespace: agentio
+  namespace: endpoints-examples
 spec:
   replicas: 1
   selector:
@@ -19,7 +19,7 @@ spec:
             secretName: service-account-creds
       containers:
       - name: esp
-        image: ghcr.io/agentio/esp-v2:latest
+        image: ghcr.io/timburks/esp-v2:latest
         args: [
           "--listener_port=8081",
           "--backend=127.0.0.1:8080",
@@ -45,7 +45,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: echo
-  namespace: agentio
+  namespace: endpoints-examples
 spec:
   ports:
   - port: 80
@@ -60,15 +60,26 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: echo
-  namespace: agentio
+  namespace: endpoints-examples
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
 spec:
   tls:
   - hosts:
+      - echo.timbx.me
       - echo.endpoints.agentio.cloud.goog
     secretName: echo-tls
   rules:
+  - host: echo.timbx.me
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: echo
+            port:
+              number: 80
   - host: echo.endpoints.agentio.cloud.goog
     http:
       paths:
